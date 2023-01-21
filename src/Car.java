@@ -1,4 +1,4 @@
-package transport;
+package Transport;
 import java.util.Objects;
 
 public class Car {
@@ -6,141 +6,189 @@ public class Car {
     private final String model;
     private double engineVolume;
     private String color;
-    private final int productionYear;
-    private final String productionCountry;
-    private String gearbox;
+    private final int year;
+    private String country;
+    private String gear;
     private final String bodyType;
-    private String registrationPlateNumber;
-    private final int seatQuantity;
-    private boolean winterTyres;
+    private String regNumber;
+    private final int capacity;
+    private boolean summerTyres;
     private Key key;
 
-    public Car(String brand, String model, int productionYear, String productionCountry, String color,
-               double engineVolume, String gearbox, String bodyType, String registrationPlateNumber,
-               int seatQuantity, boolean winterTyres, Key key) {
+    public static  class Key {
+        private final boolean remoteRun;
+        private final boolean withoutAccess;
+        public Key(boolean remoteRun, boolean withoutAccess) {
+            this.remoteRun = remoteRun;
+            this.withoutAccess = withoutAccess;
+        }
+        public boolean isRemoteRun() {
+            return remoteRun;
+        }
+        public boolean isWithoutAccess() {
+            return withoutAccess;
+        }
+        @Override
+        public String toString() {
+            return (remoteRun? "удалённый запуск двигателя," : "без удалённого запуска двигателя,") + " " +
+                    (withoutAccess? "бесключевой доступ" : "бесключевой доступ отсутствует");
+        }
+    }
 
+    public Car(String brand,
+               String model,
+               double engineVolume,
+               String color,
+               int year,
+               String country,
+               String gear,
+               String bodyType,
+               String regNumber,
+               int capacity,
+               boolean summerTyres,
+               Key key) {
         if (brand == null || brand.isEmpty()) {
-            this.brand = "default";
-        } else {
-            this.brand = brand;
+            brand = "default";
         }
+        this.brand = brand;
         if (model == null || model.isEmpty()) {
-            this.model = "default";
-        } else {
-            this.model = model;
+            model = "default";
         }
-        if (productionYear <= 0) {
-            this.productionYear = 2000;
-        } else {
-            this.productionYear = productionYear;
+        this.model = model;
+        setEngineVolume(engineVolume);
+        setColor(color);
+        if (year <= 0) {
+            year = 2000;
         }
-        if (productionCountry == null || productionCountry.isEmpty()) {
-            this.productionCountry = "default";
-        } else {
-            this.productionCountry = productionCountry;
-        }
-        if (color == null || color.isEmpty()) {
-            this.color = "Белый";
-        } else {
-            this.color = color;
-        }
-        if (engineVolume <= 0) {
-            this.engineVolume = 1.5;
-        } else {
-            this.engineVolume = engineVolume;
-        }
-        if (gearbox == null || gearbox.isEmpty()) {
-            this.gearbox = "A";
-        } else {
-            this.gearbox = gearbox;
-        }
+        this.year = year;
+        setCountry(country);
+        setGear(gear);
         if (bodyType == null || bodyType.isEmpty()) {
-            this.bodyType = "sedan";
-        } else {
-            this.bodyType = bodyType;
+            bodyType = "Автомат";
         }
-        if (registrationPlateNumber == null || registrationPlateNumber.isEmpty()) {
-            this.registrationPlateNumber = "X000XX000";
-        } else {
-            this.registrationPlateNumber = registrationPlateNumber;
+        this.bodyType = bodyType;
+        setRegNumber(regNumber);
+        if (capacity <= 0) {
+            capacity = 5;
         }
-        if (seatQuantity < 2 || seatQuantity > 9) {
-            throw new IndexOutOfBoundsException("Количество мест должно быть от 2 до 9, включая водителя");
-        } else {
-            this.seatQuantity = seatQuantity;
-        }
-        this.winterTyres = winterTyres;
-        if (key == null) {
-            this.key = new Key();
-        } else {
-            this.key = key;
-        }
+        this.capacity = capacity;
+        this.summerTyres = summerTyres;
+        setKey(key);
     }
 
-    public Car(String brand, String model, int productionYear, String productionCountry, String color,
-               double engineVolume) {
-        this(brand, model, productionYear, productionCountry, color, engineVolume, "A", "sedan",
-                "x000xx000", 5, true, new Key());
+    public String getBrand() {
+        return brand;
     }
-
-    public boolean isWinterTyres() {
-        return winterTyres;
+    public String getModel() {
+        return model;
+    }
+    public double getEngineVolume () {
+        return engineVolume;
+    }
+    public void setEngineVolume(double engineVolume){
+        if (engineVolume <= 0) {
+            engineVolume = 1.5;
+        }
+        this.engineVolume = engineVolume;
+    }
+    public String getColor () {
+        return color;
+    }
+    public void setColor (String color){
+        if (color == null || color.isEmpty()) {
+            color = "белый";
+        }
+        this.color = color;
+    }
+    public int getYear () {
+        return year;
+    }
+    public String getCountry () {
+        return country;
+    }
+    public void setCountry (String country){
+        if (country == null || country.isEmpty()) {
+            country = "defaulet";
+        }
+        this.country = country;
+    }
+    public String getGear () {
+        return gear;
+    }
+    public void setGear (String gear){
+        if (gear == null || gear.isEmpty()) {
+            gear = "Автомат";
+        }
+        this.gear = gear;
+    }
+    public String getBodyType () {
+        return bodyType;
+    }
+    public String getRegNumber () {
+        return regNumber;
+    }
+    public void setRegNumber (String regNumber){
+        if (regNumber == null || regNumber.isEmpty()) {
+            this.regNumber = "X000XX000";
+        }
+        this.regNumber = regNumber;
+    }
+    public int getCapacity () {
+        return capacity;
+    }
+    public boolean isSummerTyres () {
+        return summerTyres;
+    }
+    public void setSummerTyres (boolean summerTyres){
+        this.summerTyres = summerTyres;
     }
 
     public Key getKey() {
         return key;
     }
 
+    public void setKey(Key key) {
+        if (key == null) {
+            key = new Key(false, false);
+        }
+        this.key = key;
+    }
+
+    public void chageTyres (int month){
+        if (month >= 11 && month <= 12 || (month >= 1 && month <= 3)){
+            summerTyres = false;
+        }
+        if (month >= 4 && month <= 10){
+            summerTyres = true;
+        }
+    }
+
+    @Override
+    public String toString () {
+        return  "Марка: " + getBrand() +
+                " \nМодель: " + getModel() +
+                " \nГод производства: " + year +
+                " \nСтрана сборки: " + getCountry() +
+                " \nЦвет кузова: " + getColor() +
+                " \nОбъем двигателя - " + engineVolume +
+                " \nКоробка передач: " + gear +
+                " \nТип кузова: " + bodyType +
+                " \nРегистрационный номер: " + regNumber +
+                " \nКоличество мест: " + capacity +
+                (summerTyres ? "\nЗимняя" : "\nЛетняя") + " резина" + ", " +
+                key;
+    }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Car car = (Car) o;
-        return Double.compare(car.engineVolume, engineVolume) == 0 && productionYear == car.productionYear &&
-                seatQuantity == car.seatQuantity && winterTyres == car.winterTyres && Objects.equals(brand, car.brand)
-                && Objects.equals(model, car.model) && Objects.equals(color, car.color)
-                && Objects.equals(productionCountry, car.productionCountry) && Objects.equals(gearbox, car.gearbox)
-                && Objects.equals(bodyType, car.bodyType) && Objects.equals(registrationPlateNumber,
-                car.registrationPlateNumber);
+        return regNumber.equals(car.regNumber);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(brand, model, engineVolume, color, productionYear, productionCountry, gearbox,
-                bodyType, registrationPlateNumber, seatQuantity, winterTyres);
-    }
-
-    @Override
-    public String toString() {
-        return "Марка: " + brand + ", " + "Модель: " + model + ", " + "Год производства: " + productionYear + ", " +
-                "Страна сборки: " + productionCountry + ", " + "Цвет кузова: " + color + ", " +
-                String.format("Объем двигателя - %.1f l." , engineVolume) + "Коробка передач: " + gearbox + ", " +
-                "Тип кузова: " + bodyType + ", " + "Регистрационный номер: " + registrationPlateNumber + ", " +
-                "Количество мест: " + seatQuantity + ", " + (isWinterTyres() ? "Зимняя" : "Летняя") + " резина" + ", " +
-                (getKey().isKeylessAccess() ? "доступ без ключа" : "доступ с ключа") + ", " +
-                (getKey().isRemoteStartEngine() ? "Удаленный запуск двигателя." : "классический запуск двигателя.");
-    }
-
-    public static class Key {
-        private final boolean remoteStartEngine;
-        private final boolean keylessAccess;
-
-        public Key(boolean remoteStartEngine, boolean keylessAccess) {
-            this.remoteStartEngine = remoteStartEngine;
-            this.keylessAccess = keylessAccess;
-        }
-
-        public Key() {
-            this(false, false);
-        }
-
-        public boolean isRemoteStartEngine() {
-            return remoteStartEngine;
-        }
-
-        public boolean isKeylessAccess() {
-            return keylessAccess;
-        }
+        return Objects.hash(regNumber);
     }
 }
